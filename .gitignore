@@ -2,3 +2,4 @@
 yolo26n.pt
 args.yaml
 .venv
+__pycache__
