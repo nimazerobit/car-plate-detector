@@ -1,5 +1,7 @@
 # Iranian License Plate Detection
 
+<img width="2048" height="620" alt="sample" src="https://github.com/user-attachments/assets/40414b7e-fbe1-49ff-8b0c-8595fe63ef3c" />
+
 This repository contains two Ultralytics YOLO models for processing Iranian vehicle license plates:
 
 1. **Plate detector** — detects a license plate in a vehicle image and saves an aligned crop.
