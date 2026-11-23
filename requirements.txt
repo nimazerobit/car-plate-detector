@@ -4,3 +4,4 @@ opencv-python
 numpy
 onnx
 onnxruntime
+python-dotenv

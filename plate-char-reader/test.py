@@ -1,28 +1,24 @@
 import argparse
 from pathlib import Path
-
 import cv2
 from ultralytics import YOLO
 
-
-PROJECT_DIR = Path(__file__).resolve().parent
-DEFAULT_MODEL = PROJECT_DIR / "runs/detect/license_plate_yolo/weights/best.pt"
-
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPOSITORY_ROOT = SCRIPT_DIR.parent
+DEFAULT_MODEL = REPOSITORY_ROOT / "runs/detect/plate_character_yolo/weights/best.pt"
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Detect characters in a license-plate image.")
-    parser.add_argument("image", type=Path, help="Path to a cropped license-plate image.")
-    parser.add_argument("--model", type=Path, default=DEFAULT_MODEL, help="Model path.")
-    parser.add_argument("--conf", type=float, default=0.25, help="Confidence threshold.")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("image", type=Path)
+    parser.add_argument("--model", type=Path, default=DEFAULT_MODEL)
+    parser.add_argument("--conf", type=float, default=0.25)
     parser.add_argument(
         "--output",
         type=Path,
-        default=PROJECT_DIR / "outputs" / "character_predictions.jpg",
-        help="Path for the annotated output image.",
+        default=SCRIPT_DIR / "outputs" / "character_predictions.jpg",
     )
-    parser.add_argument("--show", action="store_true", help="Show the annotated image.")
+    parser.add_argument("--show", action="store_true")
     return parser.parse_args()
-
 
 def main() -> None:
     args = parse_args()
@@ -44,7 +40,6 @@ def main() -> None:
         cv2.imshow("Detected plate characters", annotated)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
-
 
 if __name__ == "__main__":
     main()

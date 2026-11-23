@@ -1,14 +1,12 @@
 import argparse
 from pathlib import Path
-
 import cv2
 import numpy as np
 from ultralytics import YOLO
 
-
-PROJECT_DIR = Path(__file__).resolve().parent
-DEFAULT_MODEL = PROJECT_DIR / "runs/detect/license_plate_yolo/weights/best.onnx"
-
+SCRIPT_DIR = Path(__file__).resolve().parent
+REPOSITORY_ROOT = SCRIPT_DIR.parent
+DEFAULT_MODEL = REPOSITORY_ROOT / "runs/detect/license_plate_yolo/weights/best.onnx"
 
 def align_license_plate(plate_img: np.ndarray, target_width: int = 400) -> np.ndarray:
     gray = cv2.cvtColor(plate_img, cv2.COLOR_BGR2GRAY)
@@ -36,22 +34,19 @@ def align_license_plate(plate_img: np.ndarray, target_width: int = 400) -> np.nd
     )
     return cv2.resize(aligned, (target_width, round(target_width * height / width)))
 
-
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Detect and align license plates.")
-    parser.add_argument("image", type=Path, help="Path to the source image.")
-    parser.add_argument("--model", type=Path, default=DEFAULT_MODEL, help="Model path.")
-    parser.add_argument("--conf", type=float, default=0.25, help="Confidence threshold.")
-    parser.add_argument("--iou", type=float, default=0.45, help="IoU threshold.")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("image", type=Path)
+    parser.add_argument("--model", type=Path, default=DEFAULT_MODEL)
+    parser.add_argument("--conf", type=float, default=0.25)
+    parser.add_argument("--iou", type=float, default=0.45)
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=PROJECT_DIR / "outputs",
-        help="Directory for aligned plate crops.",
+        default=SCRIPT_DIR / "outputs",
     )
-    parser.add_argument("--show", action="store_true", help="Show each aligned plate.")
+    parser.add_argument("--show", action="store_true")
     return parser.parse_args()
-
 
 def main() -> None:
     args = parse_args()
@@ -89,7 +84,6 @@ def main() -> None:
     cv2.destroyAllWindows()
     if detections == 0:
         print("No plates were detected.")
-
 
 if __name__ == "__main__":
     main()

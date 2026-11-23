@@ -1,5 +1,8 @@
 .env
-yolo26n.pt
+yolo26*.pt
 args.yaml
 .venv
 __pycache__
+outputs/
+/dataset/
+/runs/
